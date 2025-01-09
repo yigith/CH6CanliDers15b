@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Api Cors Test</title>
+</head>
+<body>
+    <h1>Todos</h1>
+    <ul id="todos"></ul>
+
+    <script>
+        const url = "https://localhost:7033/api/TodoItems";
+        const ul = document.getElementById("todos");
+
+        fetch(url)
+            .then(res => res.json())
+            .then(dizi => {
+                for (let todo of dizi) {
+                    let durum = todo.done ? "☑" : "×";
+                    ul.innerHTML += `<li>${todo.title} (${durum})</li>`;
+                }
+            });
+    </script>
+</body>
+</html>

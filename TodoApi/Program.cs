@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using TodoApi.Data;
+
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(s => s.AddDefaultPolicy(p =>
+{
+    p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+}));
 // Add services to the container.
-
+builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(
+        builder.Configuration.GetConnectionString("ApplicationDbContext")));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -16,7 +23,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
